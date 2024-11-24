@@ -1,0 +1,57 @@
+﻿<div class="log-display">
+    @if (LogMessages.Any())
+    {
+        <ul>
+            @foreach (var log in LogMessages)
+            {
+                <li class="log-entry">
+                    <span class="message">@log</span>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No logs available</p>
+    }
+</div>
+
+@code {
+
+    [Parameter] public List<string> LogMessages { get; set; } = [];
+}
+
+<style>
+    .log-display {
+        font-family: 'Courier New', monospace;
+        background-color: #000000;
+        color: white; 
+        border: 1px solid; 
+        padding: 10px;
+        max-height: 500px;
+        overflow-y: scroll;
+        white-space: pre-wrap;
+    }
+
+    .log-entry {
+        display: flex;
+        margin-bottom: 4px;
+        font-size: 14px;
+    }
+
+    .message {
+        color: white; 
+    }
+
+    .log-entry:nth-child(odd) {
+        background-color: #111111; 
+    }
+
+    .log-entry:nth-child(even) {
+        background-color: #222222; 
+    }
+
+    p {
+        color: #00FF00; 
+    }
+</style>

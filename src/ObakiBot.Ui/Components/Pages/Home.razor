@@ -1,0 +1,62 @@
+﻿@page "/"
+@using NetCord.Gateway
+@using Message = NetCord.Gateway.Message
+
+@inject DbhClient DbhClient
+
+<h3>Home</h3>
+
+<FluentStack Orientation="Orientation.Vertical"
+             HorizontalAlignment="HorizontalAlignment.Center"
+             VerticalAlignment="VerticalAlignment.Center"
+             VerticalGap="20">
+    <FluentTextField @bind-Value=_token TextFieldType="TextFieldType.Password">Token</FluentTextField>
+    <FluentButton Id="start-client" Appearance="Appearance.Outline" OnClick="StartClient">Start</FluentButton>
+    <FluentButton Id="stop-client" Appearance="Appearance.Outline" OnClick="StopClient">Stop</FluentButton>
+
+    @if (_logs.Any())
+    {
+        <DisplayLogs LogMessages="_logs"/>
+    }
+
+
+</FluentStack>
+
+@code {
+
+    private string _token = string.Empty;
+    private readonly List<string> _logs = [];
+
+    protected override void OnInitialized()
+    {
+        DbhClient.OnLogAsync += LogTask;
+        DbhClient.OnMessageCreate += OnMessageReceived;
+        DbhClient.InitializeEvents();
+    }
+
+    private async Task StartClient()
+    {
+        Console.WriteLine("Started");
+        await DbhClient.StartClientAsync();
+    }
+
+    private async Task StopClient()
+    {
+        Console.WriteLine("Stopped");
+        await DbhClient.StopClientAsync();
+    }
+
+    private async ValueTask LogTask(LogMessage logMessage)
+    {
+        var log = logMessage.ToString();
+        _logs.Add(log);
+        await InvokeAsync(StateHasChanged);
+    }
+    
+    private async ValueTask OnMessageReceived(Message message)
+    {
+        _logs.Add(message.Content);
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

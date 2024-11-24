@@ -1,0 +1,48 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.0.0
+MinimumVisualStudioVersion = 17.8.0.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObakiBot.AppHost", "ObakiBot.AppHost\ObakiBot.AppHost.csproj", "{EB85A278-A899-4524-97E0-3B8009DB3FA3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObakiBot.ServiceDefaults", "ObakiBot.ServiceDefaults\ObakiBot.ServiceDefaults.csproj", "{DD860C79-A1D3-43DC-BFCB-1D04814FA594}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObakiBot.Discord", "ObakiBot.Discord\ObakiBot.Discord.csproj", "{4041F76B-FD9E-47FD-B7E4-B63A9B15C68F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObakiBot.Ui", "ObakiBot.Ui\ObakiBot.Ui.csproj", "{3ABD3069-CFD9-44FB-B4AE-2A294E002F73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObakiBot.Ai", "ObakiBot.Ai\ObakiBot.Ai.csproj", "{6E586247-3932-4FD9-8900-E24B94F555DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB85A278-A899-4524-97E0-3B8009DB3FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB85A278-A899-4524-97E0-3B8009DB3FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB85A278-A899-4524-97E0-3B8009DB3FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB85A278-A899-4524-97E0-3B8009DB3FA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD860C79-A1D3-43DC-BFCB-1D04814FA594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD860C79-A1D3-43DC-BFCB-1D04814FA594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD860C79-A1D3-43DC-BFCB-1D04814FA594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD860C79-A1D3-43DC-BFCB-1D04814FA594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4041F76B-FD9E-47FD-B7E4-B63A9B15C68F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4041F76B-FD9E-47FD-B7E4-B63A9B15C68F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4041F76B-FD9E-47FD-B7E4-B63A9B15C68F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4041F76B-FD9E-47FD-B7E4-B63A9B15C68F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ABD3069-CFD9-44FB-B4AE-2A294E002F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ABD3069-CFD9-44FB-B4AE-2A294E002F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ABD3069-CFD9-44FB-B4AE-2A294E002F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ABD3069-CFD9-44FB-B4AE-2A294E002F73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E586247-3932-4FD9-8900-E24B94F555DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E586247-3932-4FD9-8900-E24B94F555DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E586247-3932-4FD9-8900-E24B94F555DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E586247-3932-4FD9-8900-E24B94F555DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7220DE20-98CA-42A9-AB5D-E06A534E8D7B}
+	EndGlobalSection
+EndGlobal
