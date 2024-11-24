@@ -2,7 +2,7 @@
 @using NetCord.Gateway
 @using Message = NetCord.Gateway.Message
 
-@inject DbhClient DbhClient
+@inject DiscordClient DiscordClient
 
 <h3>Home</h3>
 
@@ -10,7 +10,6 @@
              HorizontalAlignment="HorizontalAlignment.Center"
              VerticalAlignment="VerticalAlignment.Center"
              VerticalGap="20">
-    <FluentTextField @bind-Value=_token TextFieldType="TextFieldType.Password">Token</FluentTextField>
     <FluentButton Id="start-client" Appearance="Appearance.Outline" OnClick="StartClient">Start</FluentButton>
     <FluentButton Id="stop-client" Appearance="Appearance.Outline" OnClick="StopClient">Stop</FluentButton>
 
@@ -19,31 +18,29 @@
         <DisplayLogs LogMessages="_logs"/>
     }
 
-
 </FluentStack>
 
 @code {
 
-    private string _token = string.Empty;
     private readonly List<string> _logs = [];
-
-    protected override void OnInitialized()
+ 
+    protected override async Task OnInitializedAsync()
     {
-        DbhClient.OnLogAsync += LogTask;
-        DbhClient.OnMessageCreate += OnMessageReceived;
-        DbhClient.InitializeEvents();
+        DiscordClient.OnLogAsync += LogTask;
+        DiscordClient.OnMessageCreate += OnMessageReceived;
+        await DiscordClient.InitializeClientAsync();
     }
 
     private async Task StartClient()
     {
         Console.WriteLine("Started");
-        await DbhClient.StartClientAsync();
+        await DiscordClient.StartClientAsync();
     }
 
     private async Task StopClient()
     {
         Console.WriteLine("Stopped");
-        await DbhClient.StopClientAsync();
+        await DiscordClient.StopClientAsync();
     }
 
     private async ValueTask LogTask(LogMessage logMessage)

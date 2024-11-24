@@ -1,16 +1,14 @@
 ﻿@inherits LayoutComponentBase
-@inject IMessageService MessageService
 @inject IDialogService DialogService
 
 <FluentToastProvider Position="ToastPosition.TopCenter" Timeout="10_000"/>
 <FluentDialogProvider/>
 <FluentTooltipProvider/>
-
 <FluentDesignTheme OnLoaded="@OnLoaded" StorageName="theme" CustomColor="#FFFFFF"/>
 <CascadingValue Value="@_themeMode">
     <FluentLayout>
         <FluentHeader>
-            Discord Bot Hoster
+           Obaki Bot
         </FluentHeader>
         <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
             <FluentBodyContent Class="body-content">
@@ -38,14 +36,14 @@
         _themeMode = e.IsDark ? DesignThemeModes.Dark : DesignThemeModes.Light;
     }
 
-    private async Task OpenSettingsAsync()
-    {
-        _dialog = await DialogService.ShowPanelAsync<SettingsPanel>(new DialogParameters
-        {
-            Alignment = HorizontalAlignment.Right,
-            Title = "Settings",
-            PreventScroll = true
-        });
-        var result = await _dialog.Result;
-    }
+    // private async Task OpenSettingsAsync()
+    // {
+    //     _dialog = await DialogService.ShowPanelAsync<SettingsPanel>(new DialogParameters
+    //     {
+    //         Alignment = HorizontalAlignment.Right,
+    //         Title = "Settings",
+    //         PreventScroll = true
+    //     });
+    //     var result = await _dialog.Result;
+    // }
 }
