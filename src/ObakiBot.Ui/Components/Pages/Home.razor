@@ -1,17 +1,23 @@
 ﻿@page "/"
 @using NetCord.Gateway
 @using Message = NetCord.Gateway.Message
-
 @inject DiscordClient DiscordClient
-
-<h3>Home</h3>
 
 <FluentStack Orientation="Orientation.Vertical"
              HorizontalAlignment="HorizontalAlignment.Center"
              VerticalAlignment="VerticalAlignment.Center"
              VerticalGap="20">
-    <FluentButton Id="start-client" Appearance="Appearance.Outline" OnClick="StartClient">Start</FluentButton>
-    <FluentButton Id="stop-client" Appearance="Appearance.Outline" OnClick="StopClient">Stop</FluentButton>
+    <FluentAppBar Orientation="Orientation.Horizontal">
+        @if (!_isClientstarted)
+        {
+            <FluentButton Id="start-client" Appearance="Appearance.Outline" OnClick="StartClient">Start Discord Client</FluentButton>
+        }
+        else
+        {
+            <FluentButton Id="stop-client" Appearance="Appearance.Outline" OnClick="StopClient">Stop Discord Client</FluentButton>
+        }
+        
+    </FluentAppBar>
 
     @if (_logs.Any())
     {
@@ -23,7 +29,8 @@
 @code {
 
     private readonly List<string> _logs = [];
- 
+    private bool _isClientstarted;
+
     protected override async Task OnInitializedAsync()
     {
         DiscordClient.OnLogAsync += LogTask;
@@ -34,12 +41,14 @@
     private async Task StartClient()
     {
         Console.WriteLine("Started");
+        _isClientstarted = true;
         await DiscordClient.StartClientAsync();
     }
 
     private async Task StopClient()
     {
         Console.WriteLine("Stopped");
+        _isClientstarted = false;
         await DiscordClient.StopClientAsync();
     }
 
@@ -49,7 +58,7 @@
         _logs.Add(log);
         await InvokeAsync(StateHasChanged);
     }
-    
+
     private async ValueTask OnMessageReceived(Message message)
     {
         _logs.Add(message.Content);

@@ -4,12 +4,10 @@
 <FluentToastProvider Position="ToastPosition.TopCenter" Timeout="10_000"/>
 <FluentDialogProvider/>
 <FluentTooltipProvider/>
-<FluentDesignTheme OnLoaded="@OnLoaded" StorageName="theme" CustomColor="#FFFFFF"/>
+<FluentDesignTheme OnLoaded="@OnLoaded" StorageName="theme" CustomColor="#1E1F22"/>
 <CascadingValue Value="@_themeMode">
     <FluentLayout>
-        <FluentHeader>
-           Obaki Bot
-        </FluentHeader>
+        <Header Text="Obaki Bot"/>
         <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
             <FluentBodyContent Class="body-content">
                 <div class="content">

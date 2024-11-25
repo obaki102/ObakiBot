@@ -15,4 +15,7 @@
     <ProjectReference Include="..\ObakiBot.Discord\ObakiBot.Discord.csproj" />
     <ProjectReference Include="..\ObakiBot.ServiceDefaults\ObakiBot.ServiceDefaults.csproj" />
   </ItemGroup>
+  
+  
 </Project>
+
