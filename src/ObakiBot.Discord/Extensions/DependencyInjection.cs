@@ -5,6 +5,9 @@ using NetCord;
 using NetCord.Gateway;
 using NetCord.Hosting.Gateway;
 using NetCord.Services.ApplicationCommands;
+using NetCord.Services.Commands;
+using ObakiBot.Ai;
+using ObakiBot.Core;
 
 namespace ObakiBot.Discord.Extensions;
 
@@ -13,11 +16,19 @@ public static class DependencyInjection
  public static IServiceCollection AddDiscordDependencies(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
+        services.AddOllamaAiService();
         services.AddSingleton<ApplicationCommandService<ApplicationCommandContext>>(static serviceProvider =>
         {
             var applicationCommandService = new ApplicationCommandService<ApplicationCommandContext>();
             applicationCommandService.AddModules(Assembly.GetExecutingAssembly());
             return applicationCommandService;
+        });
+        
+        services.AddSingleton<CommandService<CommandContext>>(static serviceProvider =>
+        {
+            var textCommandService = new CommandService<CommandContext>();
+            textCommandService.AddModules(Assembly.GetExecutingAssembly());
+            return textCommandService;
         });
         
         services.AddOptions<GatewayClientOptions>().BindConfiguration("Discord");
@@ -29,6 +40,7 @@ public static class DependencyInjection
             {
                 Intents = GatewayIntents.GuildMessages | GatewayIntents.DirectMessages | GatewayIntents.MessageContent,
             };
+            ServiceLocator.Configure(serviceProvider);
             return new GatewayClient(new BotToken(gatewayClientOptions.Token ?? string.Empty), config);
         });
        

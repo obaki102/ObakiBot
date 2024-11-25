@@ -1,14 +1,16 @@
 using ObakiBot.Discord.Extensions;
 using Microsoft.FluentUI.AspNetCore.Components;
+using ObakiBot.Ai;
 using ObakiBot.Ui.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 // Add services to the container.
+builder.Services.AddDiscordDependencies();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddFluentUIComponents();
-builder.Services.AddDiscordDependencies();
+
 
 var app = builder.Build();
 
