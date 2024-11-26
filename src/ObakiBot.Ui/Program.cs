@@ -1,6 +1,7 @@
 using ObakiBot.Discord.Extensions;
 using Microsoft.FluentUI.AspNetCore.Components;
 using ObakiBot.Ai;
+using ObakiBot.ServiceDefaults;
 using ObakiBot.Ui.Components;
 
 var builder = WebApplication.CreateBuilder(args);

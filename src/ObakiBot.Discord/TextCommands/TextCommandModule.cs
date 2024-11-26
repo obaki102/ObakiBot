@@ -9,7 +9,7 @@ public class TextCommandModule(OllamaAiService ollamaAiService)  :  CommandModul
     [Command("ask-obaki-bot", Priority = 0)]
     public  async Task<string> AskObakiBot([CommandParameter(Remainder = true)] string question)
     {
-        var answer = await ollamaAiService.AskAnyQuestionsAsync(question);
+        var answer = await ollamaAiService.AskWalterAsync(question);
         return answer;
     }
     

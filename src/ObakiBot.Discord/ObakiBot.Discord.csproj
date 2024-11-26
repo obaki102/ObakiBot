@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ObakiBot.Ai\ObakiBot.Ai.csproj" />
-    <ProjectReference Include="..\ObakiBot.Core\ObakiBot.Core.csproj" />
   </ItemGroup>
 
 </Project>

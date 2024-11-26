@@ -1,0 +1,4 @@
+GET /api/v1/ai/ask-walter?question= how is Jessie?
+Host: localhost:5135
+
+

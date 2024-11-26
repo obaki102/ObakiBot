@@ -29,7 +29,7 @@ public class SlashCommandModule
         string @question)
     {
         await Context.Interaction.SendResponseAsync(InteractionCallback.DeferredMessage(MessageFlags.Ephemeral));
-        var answer = await _ollamaAiService.AskAnyQuestionsAsync(question);
+        var answer = await _ollamaAiService.AskWalterAsync(question);
         await Context.Interaction.ModifyResponseAsync(message => message.Content = answer);
     }
 
