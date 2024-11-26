@@ -10,5 +10,9 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ObakiBot.Ai\ObakiBot.Ai.csproj" />
+    </ItemGroup>
+
 
 </Project>

@@ -4,12 +4,12 @@ using ObakiBot.Ai;
 
 namespace ObakiBot.Discord.TextCommands;
 
-public class AskBotModule(OllamaAiService ollamaAiService)  :  CommandModule<CommandContext>
+public class TextCommandModule(OllamaAiService ollamaAiService)  :  CommandModule<CommandContext>
 {
     [Command("ask-obaki-bot", Priority = 0)]
     public  async Task<string> AskObakiBot([CommandParameter(Remainder = true)] string question)
     {
-        var answer = await ollamaAiService.AskObakiBotAsync(question);
+        var answer = await ollamaAiService.AskAnyQuestionsAsync(question);
         return answer;
     }
     

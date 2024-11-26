@@ -1,8 +1,8 @@
 ﻿@page "/"
 @using NetCord.Gateway
+@using ObakiBot.Ai
 @using Message = NetCord.Gateway.Message
 @inject DiscordClient DiscordClient
-
 <FluentStack Orientation="Orientation.Vertical"
              HorizontalAlignment="HorizontalAlignment.Center"
              VerticalAlignment="VerticalAlignment.Center"
@@ -23,7 +23,7 @@
     {
         <DisplayLogs LogMessages="_logs"/>
     }
-
+    
 </FluentStack>
 
 @code {

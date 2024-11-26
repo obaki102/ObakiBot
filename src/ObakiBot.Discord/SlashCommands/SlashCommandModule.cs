@@ -1,20 +1,41 @@
-﻿using NetCord.Services.ApplicationCommands;
+﻿using NetCord;
+using NetCord.Rest;
+using NetCord.Services.ApplicationCommands;
 using ObakiBot.Ai;
-using ObakiBot.Core;
 
 namespace ObakiBot.Discord.SlashCommands;
 
-public class SlashCommandModule(OllamaAiService ollamaAiService) : ApplicationCommandModule<ApplicationCommandContext>
+public class SlashCommandModule
+    : ApplicationCommandModule<SlashCommandContext>
 {
-    [SlashCommand("pong", "Pong!")]
-    public static string Pong() => "Ping!";
+    private readonly OllamaAiService _ollamaAiService;
+
+    public SlashCommandModule(OllamaAiService olamaAiService)
+    {
+        _ollamaAiService = olamaAiService;
+    }
+
+    [SlashCommand("ping", "Ping!")]
+    public async Task Pong()
+    {
+        await Context.Interaction.SendResponseAsync(InteractionCallback.DeferredMessage(MessageFlags.Ephemeral));
+        await Task.Delay(10000);
+        await Context.Interaction.ModifyResponseAsync(message => message.Content = "pong");
+    }
 
     [SlashCommand("ask-obaki-bot", "Ask obaki-bot command")]
-    public async Task<string> AskObakiBotCommand(
+    public async Task AskObakiBotCommand(
         [SlashCommandParameter(Name = "question", Description = "Ask any question")]
         string @question)
     {
-        var answer = await ollamaAiService.AskObakiBotAsync(question);
-        return answer;
+        await Context.Interaction.SendResponseAsync(InteractionCallback.DeferredMessage(MessageFlags.Ephemeral));
+        var answer = await _ollamaAiService.AskAnyQuestionsAsync(question);
+        await Context.Interaction.ModifyResponseAsync(message => message.Content = answer);
+    }
+
+    [SlashCommand("user", "Shows user info")]
+    public async Task UserAsync(User user)
+    {
+        await Context.Interaction.SendResponseAsync(InteractionCallback.Message(user.Id.ToString()));
     }
 }

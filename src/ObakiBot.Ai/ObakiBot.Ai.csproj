@@ -17,8 +17,4 @@
         <PackageReference Include="Microsoft.Extensions.AI.Ollama" Version="9.0.0-preview.9.24507.7" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\ObakiBot.Core\ObakiBot.Core.csproj" />
-    </ItemGroup>
-
 </Project>

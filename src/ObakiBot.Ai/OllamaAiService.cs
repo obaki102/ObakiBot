@@ -3,19 +3,24 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using ObakiBot.Core;
+
 
 namespace ObakiBot.Ai;
 
 public class OllamaAiService
 {
     private readonly IChatCompletionService _chatCompletionService;
-    public OllamaAiService(IChatCompletionService chatCompletionService)
+
+    public OllamaAiService(Kernel kernel)
     {
-        _chatCompletionService = chatCompletionService;
+        _chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
     }
-    public async Task<string> AskObakiBotAsync(string question)
+
+    public async Task<string> AskAnyQuestionsAsync(string question)
     {
+        if (string.IsNullOrWhiteSpace(question))
+            return "Please make sure you enter a valid question.";
+        
         var chatHistory = new ChatHistory();
         chatHistory.AddSystemMessage("""
                                          You are Walter White, a brilliant, calculated, and commanding individual. 
@@ -41,23 +46,18 @@ public static class UseOllamaAiServiceExtension
         var serviceProvider = services.BuildServiceProvider();
         var config = serviceProvider.GetRequiredService<IConfiguration>();
         var ollamaConnectionString = config.GetConnectionString("ollama-llama3-2");
-
+        
         var connectionBuilder = new DbConnectionStringBuilder
         {
             ConnectionString = ollamaConnectionString
         };
-
+        
         var endpoint = connectionBuilder["Endpoint"]?.ToString() ?? string.Empty;
         var parsedModel = connectionBuilder["Model"]?.ToString() ?? string.Empty; 
         Console.WriteLine(endpoint + ":" + parsedModel);
         services.AddOllamaChatCompletion(parsedModel, new Uri(endpoint));
-        //  services.AddOllamaChatCompletion("llama3.2:latest", new Uri("http://localhost:11434"));
+        //services.AddOllamaChatCompletion("llama3.2", new Uri("http://localhost:11434"));
         services.AddSingleton<Kernel>();
-        services.AddSingleton<IChatCompletionService>(static serviceProvider =>
-        {
-            var kernel = serviceProvider.GetRequiredService<Kernel>();
-            return kernel.GetRequiredService<IChatCompletionService>();
-        });
         services.AddSingleton<OllamaAiService>();
 
         return services;
