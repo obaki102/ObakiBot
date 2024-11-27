@@ -1,8 +1,5 @@
 ﻿@page "/"
-@using NetCord.Gateway
-@using ObakiBot.Ai
-@using Message = NetCord.Gateway.Message
-@inject DiscordClient DiscordClient
+
 <FluentStack Orientation="Orientation.Vertical"
              HorizontalAlignment="HorizontalAlignment.Center"
              VerticalAlignment="VerticalAlignment.Center"
@@ -16,50 +13,12 @@
         {
             <FluentButton Id="stop-client" Appearance="Appearance.Outline" OnClick="StopClient">Stop Discord Client</FluentButton>
         }
-        
+
     </FluentAppBar>
 
     @if (_logs.Any())
     {
         <DisplayLogs LogMessages="_logs"/>
     }
-    
+
 </FluentStack>
-
-@code {
-
-    private readonly List<string> _logs = [];
-    private bool _isClientstarted;
-
-    protected override async Task OnInitializedAsync()
-    {
-        DiscordClient.DiscordEventContext.OnLogAsync += LogTask;
-        await DiscordClient.InitializeClientAsync();
-    }
-
-    private async Task StartClient()
-    {
-        _isClientstarted = true;
-        await DiscordClient.StartClientAsync();
-    }
-
-    private async Task StopClient()
-    {
-        _isClientstarted = false;
-        await DiscordClient.StopClientAsync();
-    }
-
-    private async ValueTask LogTask(LogMessage logMessage)
-    {
-        var log = logMessage.ToString();
-        _logs.Add(log);
-        await InvokeAsync(StateHasChanged);
-    }
-
-    private async ValueTask OnMessageReceived(Message message)
-    {
-        _logs.Add(message.Content);
-        await InvokeAsync(StateHasChanged);
-    }
-
-}
