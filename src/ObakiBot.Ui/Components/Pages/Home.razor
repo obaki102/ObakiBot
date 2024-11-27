@@ -33,21 +33,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        DiscordClient.OnLogAsync += LogTask;
-        DiscordClient.OnMessageCreate += OnMessageReceived;
+        DiscordClient.DiscordEventContext.OnLogAsync += LogTask;
         await DiscordClient.InitializeClientAsync();
     }
 
     private async Task StartClient()
     {
-        Console.WriteLine("Started");
         _isClientstarted = true;
         await DiscordClient.StartClientAsync();
     }
 
     private async Task StopClient()
     {
-        Console.WriteLine("Stopped");
         _isClientstarted = false;
         await DiscordClient.StopClientAsync();
     }

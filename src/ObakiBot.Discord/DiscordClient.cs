@@ -1,97 +1,65 @@
-﻿using NetCord;
+﻿using Microsoft.Extensions.Logging;
 using NetCord.Gateway;
-using NetCord.Rest;
-using NetCord.Services;
 using NetCord.Services.ApplicationCommands;
 using NetCord.Services.Commands;
-using ObakiBot.Ai;
 
 namespace ObakiBot.Discord;
 
-public sealed class DiscordClient : IDisposable
-{
-    private readonly GatewayClient _gatewayClient;
-    private readonly ApplicationCommandService<SlashCommandContext> _slashCommandService;
-    private readonly CommandService<CommandContext> _commandService;
-    private readonly IServiceProvider _serviceProvider;
-
-    public DiscordClient(GatewayClient gatewayClient,
-             ApplicationCommandService<SlashCommandContext> slashCommandService,
-             CommandService<CommandContext> commandService,
-             IServiceProvider serviceProvider)
+  public sealed class DiscordClient : IDisposable
     {
-        _gatewayClient = gatewayClient;
-        _slashCommandService = slashCommandService;
-        _commandService = commandService;
-        _serviceProvider  = serviceProvider;
-        
-    }
+        private readonly GatewayClient _gatewayClient;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<DiscordClient> _logger;
 
-    public async Task InitializeClientAsync()
-    {
-        _gatewayClient.Log += OnLogAsync;
-        _gatewayClient.MessageCreate += OnMessageCreate;
-        _gatewayClient.InteractionCreate += async interaction =>
+        public DiscordClient(
+            GatewayClient gatewayClient,
+            ApplicationCommandService<SlashCommandContext> slashCommandService,
+            CommandService<CommandContext> commandService,
+            IServiceProvider serviceProvider,
+            ILogger<DiscordClient>  logger)
         {
-            var result = await (interaction switch
-            {
-                SlashCommandInteraction slashCommandInteraction => _slashCommandService.ExecuteAsync(new SlashCommandContext(slashCommandInteraction,_gatewayClient),_serviceProvider),
-                _ => throw new("Invalid interaction."),
-            });
+            _gatewayClient = gatewayClient;
+            _serviceProvider = serviceProvider;
+            _logger = logger;
 
-            if (result is not IFailResult failResult)
-                return;
-
-            try
-            {
-                await interaction.SendResponseAsync(InteractionCallback.Message(failResult.Message));
-            }
-            catch
-            {
-            }
-        };
-        _gatewayClient.MessageCreate += async message =>
-        {
-            // Check if the message is a command (starts with '!' and is not from a bot)
-            if (!message.Content.StartsWith('!') || message.Author.IsBot)
-                return;
-
-            // Execute the command
-            var result = await _commandService.ExecuteAsync(prefixLength: 1, new CommandContext(message, _gatewayClient));
-
-            // Check if the execution failed
-            if (result is not IFailResult failResult)
-                return;
-
-            // Return the error message to the user if the execution failed
-            try
-            {
-                await message.ReplyAsync(failResult.Message);
-            }
-            catch
-            {
-            }
-        };
+            DiscordEventContext = new DiscordEventContext(
+                gatewayClient,
+                slashCommandService,
+                commandService,
+                serviceProvider,
+                logger
+            );
+        }
         
-        await _slashCommandService.CreateCommandsAsync(_gatewayClient.Rest, _gatewayClient.Id);
-    }
+        public DiscordEventContext DiscordEventContext { get; }
 
-    public async Task StartClientAsync()
-    {
-        ArgumentNullException.ThrowIfNull(_gatewayClient);
-        await _gatewayClient.StartAsync();
-    }
+        public async Task InitializeClientAsync()
+        {
+            _logger.LogInformation("Initializing Discord client...");
+            DiscordEventContext.RegisterEvents();
+            await DiscordEventContext.InitializeCommandsAsync();
+            _logger.LogInformation("Discord client initialized successfully.");
+        }
 
-    public async Task StopClientAsync()
-    {
-        await _gatewayClient.CloseAsync();
-    }
+        public async Task StartClientAsync()
+        {
+            ArgumentNullException.ThrowIfNull(_gatewayClient);
+            _logger.LogInformation("Starting Discord client...");
+            await _gatewayClient.StartAsync();
+            _logger.LogInformation("Discord client started.");
+        }
 
-    public Func<LogMessage, ValueTask>? OnLogAsync { get; set; }
-    public Func<Message, ValueTask>? OnMessageCreate { get; set; }
+        public async Task StopClientAsync()
+        {
+            _logger.LogInformation("Stopping Discord client...");
+            await _gatewayClient.CloseAsync();
+            _logger.LogInformation("Discord client stopped.");
+        }
 
-    public void Dispose()
-    {
-        _gatewayClient?.Dispose();
+        public void Dispose()
+        {
+            _logger.LogInformation("Disposing Discord client...");
+            _gatewayClient?.Dispose();
+            _logger.LogInformation("Discord client disposed.");
+        }
     }
-}

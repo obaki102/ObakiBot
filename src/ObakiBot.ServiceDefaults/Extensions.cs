@@ -5,6 +5,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 
@@ -69,7 +70,12 @@ public static class Extensions
 
         if (useOtlpExporter)
         {
-            builder.Services.AddOpenTelemetry().UseOtlpExporter();
+            builder.Services.Configure<OpenTelemetryLoggerOptions>(
+                logging => logging.AddOtlpExporter());
+            builder.Services.ConfigureOpenTelemetryMeterProvider(
+                metrics => metrics.AddOtlpExporter());
+            builder.Services.ConfigureOpenTelemetryTracerProvider(
+                tracing => tracing.AddOtlpExporter());
         }
 
         // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)

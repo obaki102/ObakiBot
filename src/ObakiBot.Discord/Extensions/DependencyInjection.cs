@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NetCord;
 using NetCord.Gateway;
@@ -15,6 +16,7 @@ public static class DependencyInjection
  public static IServiceCollection AddDiscordDependencies(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
+        services.AddLogging();
         services.AddOllamaAiService();
         services.AddSingleton<ApplicationCommandService<SlashCommandContext>>(static serviceProvider =>
         {
