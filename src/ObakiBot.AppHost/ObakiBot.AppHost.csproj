@@ -16,6 +16,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\ObakiBot.Api\ObakiBot.Api.csproj" />
+        <ProjectReference Include="..\ObakiBot.Discord\ObakiBot.Discord.csproj" />
         <ProjectReference Include="..\ObakiBot.Ui\ObakiBot.Ui.csproj" />
     </ItemGroup>
 

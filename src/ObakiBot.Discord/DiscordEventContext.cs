@@ -11,20 +11,20 @@ namespace ObakiBot.Discord;
 public class DiscordEventContext
 {
     private readonly GatewayClient _gatewayClient;
-    private readonly ApplicationCommandService<SlashCommandContext> _slashCommandService;
+    private readonly ApplicationCommandService<ApplicationCommandContext> _applicationCommandService;
     private readonly CommandService<CommandContext> _commandService;
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger _logger;
 
     public DiscordEventContext(
         GatewayClient gatewayClient,
-        ApplicationCommandService<SlashCommandContext> slashCommandService,
+        ApplicationCommandService<ApplicationCommandContext> applicationCommandService,
         CommandService<CommandContext> commandService,
         IServiceProvider serviceProvider,
         ILogger logger)
     {
         _gatewayClient = gatewayClient;
-        _slashCommandService = slashCommandService;
+        _applicationCommandService = applicationCommandService;
         _commandService = commandService;
         _serviceProvider = serviceProvider;
         _logger = logger;
@@ -41,7 +41,7 @@ public class DiscordEventContext
     public async Task InitializeCommandsAsync()
     {
         _logger.LogInformation("Initializing slash commands...");
-        await _slashCommandService.CreateCommandsAsync(_gatewayClient.Rest, _gatewayClient.Id);
+        await _applicationCommandService.CreateCommandsAsync(_gatewayClient.Rest, _gatewayClient.Id);
         _logger.LogInformation("Slash commands initialized.");
     }
 
@@ -72,7 +72,7 @@ public class DiscordEventContext
 
     private async ValueTask OnInteractionCreateAsync(Interaction interaction)
     {
-        if (interaction is not SlashCommandInteraction slashCommandInteraction)
+        if (interaction is not ApplicationCommandInteraction applicationCommandInteraction)
         {
             _logger.LogWarning("Invalid interaction received.");
             return;
@@ -80,8 +80,8 @@ public class DiscordEventContext
 
         _logger.LogInformation("Processing slash command interaction.");
 
-        var result = await _slashCommandService.ExecuteAsync(
-            new SlashCommandContext(slashCommandInteraction, _gatewayClient),
+        var result = await _applicationCommandService.ExecuteAsync(
+            new ApplicationCommandContext(applicationCommandInteraction, _gatewayClient),
             _serviceProvider
         );
 

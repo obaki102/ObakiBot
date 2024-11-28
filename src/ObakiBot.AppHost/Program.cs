@@ -14,4 +14,7 @@ var ui = builder.AddProject<Projects.ObakiBot_Ui>("ui")
     .WithExternalHttpEndpoints()
     .WithReference(ollama);;
 
+var discord =  builder.AddProject<Projects.ObakiBot_Discord>("discord")
+    .WithExternalHttpEndpoints()
+    .WithReference(ollama);;
 builder.Build().Run();

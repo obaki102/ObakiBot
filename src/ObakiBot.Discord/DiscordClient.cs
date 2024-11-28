@@ -15,7 +15,7 @@ public sealed class DiscordClient : IDisposable
 
     public DiscordClient(
         GatewayClient gatewayClient,
-        ApplicationCommandService<SlashCommandContext> slashCommandService,
+        ApplicationCommandService<ApplicationCommandContext> applicationCommandService,
         CommandService<CommandContext> commandService,
         IServiceProvider serviceProvider,
         ILogger<DiscordClient> logger)
@@ -23,7 +23,7 @@ public sealed class DiscordClient : IDisposable
         _gatewayClient = gatewayClient ?? throw new ArgumentNullException(nameof(gatewayClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-        DiscordEventContext = CreateEventContext(gatewayClient, slashCommandService, commandService, serviceProvider, logger);
+        DiscordEventContext = CreateEventContext(gatewayClient, applicationCommandService, commandService, serviceProvider, logger);
     }
 
     public async Task InitializeClientAsync()
@@ -68,12 +68,12 @@ public sealed class DiscordClient : IDisposable
  
     private DiscordEventContext CreateEventContext(
         GatewayClient gatewayClient,
-        ApplicationCommandService<SlashCommandContext> slashCommandService,
+        ApplicationCommandService<ApplicationCommandContext> applicationCommandService,
         CommandService<CommandContext> commandService,
         IServiceProvider serviceProvider,
         ILogger logger)
     {
-        return new DiscordEventContext(gatewayClient, slashCommandService, commandService, serviceProvider, logger);
+        return new DiscordEventContext(gatewayClient, applicationCommandService, commandService, serviceProvider, logger);
     }
 
     private void EnsureClientNotNull()

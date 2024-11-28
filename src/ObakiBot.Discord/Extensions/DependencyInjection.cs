@@ -18,11 +18,11 @@ public static class DependencyInjection
         ArgumentNullException.ThrowIfNull(services);
         services.AddLogging();
         services.AddOllamaAiService();
-        services.AddSingleton<ApplicationCommandService<SlashCommandContext>>(static serviceProvider =>
+        services.AddSingleton<ApplicationCommandService<ApplicationCommandContext>>(static serviceProvider =>
         {
-            var slashCommandService = new ApplicationCommandService<SlashCommandContext>();
-            slashCommandService.AddModules(Assembly.GetExecutingAssembly());
-            return slashCommandService;
+            var applicationCommandService = new ApplicationCommandService<ApplicationCommandContext>();
+            applicationCommandService.AddModules(Assembly.GetExecutingAssembly());
+            return applicationCommandService;
         });
         
         services.AddSingleton<CommandService<CommandContext>>(static serviceProvider =>

@@ -6,7 +6,7 @@ using ObakiBot.Ai;
 namespace ObakiBot.Discord.SlashCommands;
 
 public class SlashCommandModule
-    : ApplicationCommandModule<SlashCommandContext>
+    : ApplicationCommandModule<ApplicationCommandContext>
 {
     private readonly OllamaAiService _ollamaAiService;
 
@@ -28,9 +28,15 @@ public class SlashCommandModule
         [SlashCommandParameter(Name = "question", Description = "Ask any question")]
         string @question)
     {
+     
         await Context.Interaction.SendResponseAsync(InteractionCallback.DeferredMessage(MessageFlags.Ephemeral));
         var answer = await _ollamaAiService.AskWalterAsync(question);
-        await Context.Interaction.ModifyResponseAsync(message => message.Content = answer);
+        await Context.Interaction.ModifyResponseAsync(message =>
+        {
+            message.Content = answer;
+            message.AllowedMentions = AllowedMentionsProperties.None;
+
+        });
     }
 
     [SlashCommand("user", "Shows user info")]
