@@ -54,8 +54,8 @@ public class DiscordEventContext
 
         _logger.LogInformation("Processing message command: {Message}", message.Content);
 
-        var result = await _commandService.ExecuteAsync(1, new CommandContext(message, _gatewayClient));
-
+        var result = await _commandService.ExecuteAsync(1, new CommandContext(message, _gatewayClient),_serviceProvider);
+        
         if (result is IFailResult failResult)
         {
             try
