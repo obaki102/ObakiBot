@@ -17,5 +17,13 @@ public class OllamaApiEndpoints : IEndpoint
             })
             .WithTags(tag);
         
+        app.MapGet("ai/site-synopsis", async (string url, OllamaAiService ollamaAiService) =>
+            {
+                Result<string?> result = await ollamaAiService.SiteSynopsisAsync(url);
+                return result.IsSuccess ? Results.Ok(result.Value) : result.ToProblemDetails();
+            })
+            .WithTags(tag);
+        
     }
+    
 }
