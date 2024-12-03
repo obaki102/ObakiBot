@@ -2,12 +2,12 @@ using System.Threading.RateLimiting;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using Microsoft.AspNetCore.RateLimiting;
-using ObakiBot.Ai;
+using ObakiBot.Ai.Extensions;
 using ObakiBot.Api.Extensions;
 using ObakiBot.Api.Infrastructure;
 using ObakiBot.ServiceDefaults;
 using Scalar.AspNetCore;
-
+#pragma warning disable SKEXP0070
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.Services.AddCors(options =>

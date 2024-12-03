@@ -4,6 +4,7 @@ using Microsoft.SemanticKernel;
 namespace ObakiBot.Ai.Plugins;
 
 public class WebPullerPlugin
+
 {
     private readonly IHttpClientFactory _httpClientFactory;
 

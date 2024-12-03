@@ -2,17 +2,18 @@
 using NetCord.Rest;
 using NetCord.Services.ApplicationCommands;
 using ObakiBot.Ai;
+using ObakiBot.Ai.Services;
 
 namespace ObakiBot.Discord.SlashCommands;
 
 public class SlashCommandModule
     : ApplicationCommandModule<ApplicationCommandContext>
 {
-    private readonly OllamaAiService _ollamaAiService;
+    private readonly WalterAiService _walterAiService;
 
-    public SlashCommandModule(OllamaAiService olamaAiService)
+    public SlashCommandModule(WalterAiService walterAiService)
     {
-        _ollamaAiService = olamaAiService;
+        _walterAiService = walterAiService;
     }
 
     [SlashCommand("ping", "Ping!")]
@@ -30,7 +31,7 @@ public class SlashCommandModule
     {
      
         await Context.Interaction.SendResponseAsync(InteractionCallback.DeferredMessage(MessageFlags.Ephemeral));
-        var answer = await _ollamaAiService.AskWalterAsync(question);
+        var answer = await _walterAiService.AskWalterAsync(question);
         await Context.Interaction.ModifyResponseAsync(message =>
         {
             message.Content = answer;

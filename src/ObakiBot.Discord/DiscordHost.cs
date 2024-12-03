@@ -6,6 +6,7 @@ using NetCord.Hosting.Services;
 using NetCord.Hosting.Services.ApplicationCommands;
 using NetCord.Services.ApplicationCommands;
 using ObakiBot.Ai;
+using ObakiBot.Ai.Extensions;
 using ObakiBot.ServiceDefaults;
 
 var builder = Host.CreateApplicationBuilder(args);

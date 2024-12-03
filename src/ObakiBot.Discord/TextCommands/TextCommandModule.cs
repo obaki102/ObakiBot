@@ -1,21 +1,22 @@
 ﻿using NetCord.Services.Commands;
 using ObakiBot.Ai;
+using ObakiBot.Ai.Services;
 
 namespace ObakiBot.Discord.TextCommands;
 
 public class TextCommandModule : CommandModule<CommandContext>
 {
-    private readonly OllamaAiService _ollamaAiService;
+    private readonly WalterAiService _walterAiService;
 
-    public TextCommandModule(OllamaAiService olamaAiService)
+    public TextCommandModule(WalterAiService walterAiService)
     {
-        _ollamaAiService = olamaAiService;
+        _walterAiService = walterAiService;
     }
 
     [Command("ask-obaki-bot", Priority = 0)]
     public async Task<string> AskObakiBot([CommandParameter(Remainder = true)] string question)
     {
-        var answer = await _ollamaAiService.AskWalterAsync(question);
+        var answer = await _walterAiService.AskWalterAsync(question);
         return answer;
     }
 }

@@ -8,6 +8,7 @@ using NetCord.Hosting.Gateway;
 using NetCord.Services.ApplicationCommands;
 using NetCord.Services.Commands;
 using ObakiBot.Ai;
+using ObakiBot.Ai.Extensions;
 
 namespace ObakiBot.Discord.Extensions;
 
