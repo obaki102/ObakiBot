@@ -17,7 +17,7 @@ public class OllamaAiService
     private readonly Kernel _kernel;
     private readonly ChatHistory _chatHistory = [];
 
-    public OllamaAiService(Kernel kernel)
+    public OllamaAiService(Kernel kernel, IServiceProvider serviceProvider, IChatCompletionService chatCompletionService)
     {
         _chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
         _chatHistory.AddSystemMessage("""
@@ -27,7 +27,7 @@ public class OllamaAiService
                                           Stay focused on the task and do not waste time on unnecessary details or pleasantries. 
                                       """);
         _kernel = kernel;
-        _kernel.Plugins.AddFromType<WebPullerPlugin>();
+        _kernel.Plugins.AddFromType<WebPullerPlugin>("WebPuller",serviceProvider);
     }
 
     public async Task<string> AskWalterAsync(string question)
