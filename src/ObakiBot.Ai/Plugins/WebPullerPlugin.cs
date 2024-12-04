@@ -3,6 +3,7 @@ using Microsoft.SemanticKernel;
 
 namespace ObakiBot.Ai.Plugins;
 
+[Description("Pulls site content")]
 public class WebPullerPlugin
 
 {
