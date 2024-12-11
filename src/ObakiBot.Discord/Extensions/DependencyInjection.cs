@@ -14,25 +14,25 @@ namespace ObakiBot.Discord.Extensions;
 
 public static class DependencyInjection
 {
- public static IServiceCollection AddDiscordDependencies(this IServiceCollection services)
+    public static IServiceCollection AddDiscordDependencies(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
         services.AddLogging();
         services.AddOllamaAiService();
-        services.AddSingleton<ApplicationCommandService<ApplicationCommandContext>>(static serviceProvider =>
+        services.AddSingleton<ApplicationCommandService<ApplicationCommandContext>>(_ =>
         {
             var applicationCommandService = new ApplicationCommandService<ApplicationCommandContext>();
             applicationCommandService.AddModules(Assembly.GetExecutingAssembly());
             return applicationCommandService;
         });
-        
-        services.AddSingleton<CommandService<CommandContext>>(static serviceProvider =>
+
+        services.AddSingleton<CommandService<CommandContext>>(_ =>
         {
             var textCommandService = new CommandService<CommandContext>();
             textCommandService.AddModules(Assembly.GetExecutingAssembly());
             return textCommandService;
         });
-        
+
         services.AddOptions<GatewayClientOptions>().BindConfiguration("Discord");
         services.AddSingleton<GatewayClient>(static serviceProvider =>
         {
@@ -44,7 +44,7 @@ public static class DependencyInjection
             };
             return new GatewayClient(new BotToken(gatewayClientOptions.Token ?? string.Empty), config);
         });
-       
+
         services.AddSingleton<DiscordClient>();
         return services;
     }
