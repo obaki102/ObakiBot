@@ -1,13 +1,11 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NetCord;
 using NetCord.Gateway;
 using NetCord.Hosting.Gateway;
 using NetCord.Services.ApplicationCommands;
 using NetCord.Services.Commands;
-using ObakiBot.Ai;
 using ObakiBot.Ai.Extensions;
 
 namespace ObakiBot.Discord.Extensions;
